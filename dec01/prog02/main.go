@@ -2,11 +2,59 @@ package main
 
 import (
 	"bufio"
-    "fmt"
-    "log"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"net/http/cookiejar"
+	"net/url"
 	"os"
 	"strconv"
+	"time"
 )
+
+func getInput(day int) {
+	dayString := strconv.Itoa(day)
+	myInputURL := "https://adventofcode.com/2020/day/"+dayString+"/input"
+
+	// check for the session ID
+	key := os.Getenv("ADVENT_SESSION")
+
+	// it's good practice!
+	timeout := time.Duration(5 * time.Second)
+
+	// get your auth cookie set up
+	jar, _ := cookiejar.New(nil)
+	var cookies []*http.Cookie
+	cookie := &http.Cookie{
+		Name:   "session",
+		Value:  key,
+		Path:   "/",
+		Domain: ".adventofcode.com",
+	}
+	cookies = append(cookies, cookie)
+	u, _ := url.Parse(myInputURL)
+	jar.SetCookies(u, cookies)
+
+	// set up the client with that jar
+	client := http.Client{
+		Timeout: timeout,
+		Jar: jar,
+	}
+
+	// get the data
+	resp, err := client.Get(myInputURL)
+	if err != nil {
+		panic("request failed")
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		print(err)
+	}
+	fmt.Println(string(body))
+}
 
 func findAddsTo2020(list []int) (int, int, int) {
 	for i1, n1 := range list {
@@ -27,6 +75,7 @@ func getSecretKey(int1 int, int2 int, int3 int) int {
 }
 
 func main() {
+	getInput(1)
 	// read input from the file!
 	path := "input.txt"
 	var list []int
