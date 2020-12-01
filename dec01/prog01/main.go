@@ -1,8 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func findAddsTo2020(list []int) (int, int) {
+	// var int1, int2 int
+	for i1, n1 := range list {
+		fmt.Printf("range: index: %d, value: %d\n", i1, n1)
+		for _, n2 := range list[i1+1:] {
+			fmt.Printf("\tsum of %d and %d is %d\n", n1, n2, n1+n2)
+		}
+	}
 	return 1, 2
 }
 
