@@ -13,12 +13,18 @@ import (
 	"time"
 )
 
+// getInput is generalized for all Advent of Code programs.
 func getInput(day int) {
 	dayString := strconv.Itoa(day)
 	myInputURL := "https://adventofcode.com/2020/day/"+dayString+"/input"
 
 	// check for the session ID
-	key := os.Getenv("ADVENT_SESSION")
+	key, exists := os.LookupEnv("ADVENT_SESSION")
+	if !exists {
+		fmt.Println("WARNING! Environment variable ADVENT_SESSION is not set.")
+		fmt.Println("Skipping HTTPs call for your personalized inputs.")
+		return
+	}
 
 	// it's good practice!
 	timeout := time.Duration(5 * time.Second)
@@ -75,7 +81,13 @@ func getSecretKey(int1 int, int2 int, int3 int) int {
 }
 
 func main() {
-	getInput(1)
+	// make and populate the file if it isn't there
+	_, err := os.Stat("input.txt")
+    if os.IsNotExist(err) {
+		fmt.Println("input.txt not found. Making HTTPs call to generate it.")
+		getInput(1)
+    }
+	
 	// read input from the file!
 	path := "input.txt"
 	var list []int
