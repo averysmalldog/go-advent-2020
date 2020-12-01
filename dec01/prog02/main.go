@@ -60,6 +60,25 @@ func getInput(day int) {
 		print(err)
 	}
 	fmt.Println(string(body))
+
+	// now that you have the data, write it to input.txt
+	file, err := os.Create("input.txt")
+    if err != nil {
+        fmt.Println(err)
+        return
+	}
+	numBytes, err := file.Write(body)
+	if err != nil {
+        fmt.Println(err)
+        file.Close()
+        return
+	}
+	fmt.Println("input.txt created and populated successfully. ", numBytes, " bytes written.")
+    err = file.Close()
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
 }
 
 func findAddsTo2020(list []int) (int, int, int) {
