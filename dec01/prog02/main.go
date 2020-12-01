@@ -16,7 +16,7 @@ import (
 // getInput is generalized for all Advent of Code programs.
 func getInput(day int) {
 	dayString := strconv.Itoa(day)
-	myInputURL := "https://adventofcode.com/2020/day/"+dayString+"/input"
+	myInputURL := "https://adventofcode.com/2020/day/" + dayString + "/input"
 
 	// check for the session ID
 	key, exists := os.LookupEnv("ADVENT_SESSION")
@@ -45,7 +45,7 @@ func getInput(day int) {
 	// set up the client with that jar
 	client := http.Client{
 		Timeout: timeout,
-		Jar: jar,
+		Jar:     jar,
 	}
 
 	// get the data
@@ -63,30 +63,30 @@ func getInput(day int) {
 
 	// now that you have the data, write it to input.txt
 	file, err := os.Create("input.txt")
-    if err != nil {
-        fmt.Println(err)
-        return
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
 	numBytes, err := file.Write(body)
 	if err != nil {
-        fmt.Println(err)
-        file.Close()
-        return
+		fmt.Println(err)
+		file.Close()
+		return
 	}
 	fmt.Println("input.txt created and populated successfully. ", numBytes, " bytes written.")
-    err = file.Close()
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
+	err = file.Close()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 }
 
 func findAddsTo2020(list []int) (int, int, int) {
 	for i1, n1 := range list {
 		for i2, n2 := range list[i1+1:] {
-			for i3, n3 :=range list[i2+1:]{
-				if(n1+n2+n3 == 2020){
-					fmt.Printf("Found a match!\n\tIndex: %d, Value: %d\n\tIndex: %d, Value %d\n\tIndex: %d, Value %d\n",i1, n1, i2, n2, i3, n3)
+			for i3, n3 := range list[i2+1:] {
+				if n1+n2+n3 == 2020 {
+					fmt.Printf("Found a match!\n\tIndex: %d, Value: %d\n\tIndex: %d, Value %d\n\tIndex: %d, Value %d\n", i1, n1, i2, n2, i3, n3)
 					return n1, n2, n3
 				}
 			}
@@ -96,45 +96,45 @@ func findAddsTo2020(list []int) (int, int, int) {
 }
 
 func getSecretKey(int1 int, int2 int, int3 int) int {
-	return int1*int2*int3
+	return int1 * int2 * int3
 }
 
 func main() {
 	// make and populate the file if it isn't there
 	_, err := os.Stat("input.txt")
-    if os.IsNotExist(err) {
+	if os.IsNotExist(err) {
 		fmt.Println("input.txt not found. Making HTTPs call to generate it.")
 		getInput(1)
-    }
-	
+	}
+
 	// read input from the file!
 	path := "input.txt"
 	var list []int
 
 	buf, err := os.Open(path)
-    if err != nil {
-        log.Fatal(err)
-    }
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    defer func() {
-        if err = buf.Close(); err != nil {
-            log.Fatal(err)
-        }
-    }()
+	defer func() {
+		if err = buf.Close(); err != nil {
+			log.Fatal(err)
+		}
+	}()
 
-    snl := bufio.NewScanner(buf)
-    for snl.Scan() {
+	snl := bufio.NewScanner(buf)
+	for snl.Scan() {
 		num, err := strconv.Atoi(snl.Text())
 		if err != nil {
 			log.Println("well I guess there's an error")
 		}
 		list = append(list, num)
-    }
-    err = snl.Err()
-    if err != nil {
-        log.Fatal(err)
 	}
-	
+	err = snl.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// My solution
 	// fakeList := []int{2019, 50, 40, 30, 20, 10, 1}
 	int1, int2, int3 := findAddsTo2020(list)
