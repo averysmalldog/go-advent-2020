@@ -1,7 +1,11 @@
 package main
 
 import (
-	"fmt"
+	"bufio"
+    "fmt"
+    "log"
+	"os"
+	"strconv"
 )
 
 func findAddsTo2020(list []int) (int, int) {
@@ -21,8 +25,37 @@ func getSecretKey(int1 int, int2 int) int {
 }
 
 func main() {
-	fakeList := []int{2019, 50, 40, 30, 20, 10, 1}
-	int1, int2 := findAddsTo2020(fakeList)
+	// read input from the file!
+	path := "input.txt"
+	var list []int
+
+	buf, err := os.Open(path)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    defer func() {
+        if err = buf.Close(); err != nil {
+            log.Fatal(err)
+        }
+    }()
+
+    snl := bufio.NewScanner(buf)
+    for snl.Scan() {
+		num, err := strconv.Atoi(snl.Text())
+		if err != nil {
+			log.Println("well I guess there's an error")
+		}
+		list = append(list, num)
+    }
+    err = snl.Err()
+    if err != nil {
+        log.Fatal(err)
+	}
+	
+	// My solution
+	// fakeList := []int{2019, 50, 40, 30, 20, 10, 1}
+	int1, int2 := findAddsTo2020(list)
 	secretKey := getSecretKey(int1, int2)
 	fmt.Printf("Secret Key: %d\n", secretKey)
 }
