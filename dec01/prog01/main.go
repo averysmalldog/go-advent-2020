@@ -19,7 +19,7 @@ func findAddsTo2020(list []int) (int, int) {
 }
 
 func getSecretKey(int1 int, int2 int) int {
-	return 3
+	return int1*int2
 }
 
 func main() {
