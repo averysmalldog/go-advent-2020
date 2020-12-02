@@ -67,38 +67,27 @@ func main() {
 	validCounter := 0
 
 	for k, v := range list {
-		fmt.Printf("Working on line %d. \n", k)
+		fmt.Printf("Entry %d: %s: ", k, v)
 		// Parse string into fields
 		str := strings.Fields(v)
 
-		// minOccurrences and maxOccurrences
 		minMax := strings.Split(str[0],"-")
 		minOccurrences, _ := strconv.Atoi(minMax[0])
 		maxOccurrences, _ := strconv.Atoi(minMax[1])
-		fmt.Printf("\tminOccurrences: %d\n", minOccurrences)
-		fmt.Printf("\tmaxOccurrences: %d\n", maxOccurrences)
-
-		// desiredLetter
 		desiredLetter := string(str[1][0])
-		fmt.Printf("\tdesiredLetter: %s\n", desiredLetter)
-
-		// password
 		password := str[2]
-		fmt.Printf("\tPassword: %s\n", password)
 
 		// Match for desired letter
-		containsA := strings.Contains(v, desiredLetter)
-		fmt.Printf("\tContains %s? %t.\n", desiredLetter, containsA)
+		containsA := strings.Contains(password, desiredLetter)
 
 		// get count if match
 		if containsA {
-			numInstances := strings.Count(v, desiredLetter)
-			fmt.Printf("\t\tNumber of occurrences: %d\n", numInstances)
+			numInstances := strings.Count(password, desiredLetter)
 			if (numInstances >= minOccurrences) && (numInstances <= maxOccurrences) {
 				validCounter++
-				fmt.Println("\t\tvalid!")
+				fmt.Printf("valid!\n")
 			} else {
-				fmt.Println("\t\tnot valid.")
+				fmt.Printf("not valid\n")
 			}
 		}
 	}
