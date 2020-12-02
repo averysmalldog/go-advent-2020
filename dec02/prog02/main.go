@@ -9,24 +9,6 @@ import (
 	"strings"
 )
 
-func findAddsTo2020(list []int) (int, int, int) {
-	for i1, n1 := range list {
-		for i2, n2 := range list[i1+1:] {
-			for i3, n3 := range list[i2+1:] {
-				if n1+n2+n3 == 2020 {
-					fmt.Printf("Found a match!\n\tIndex: %d, Value: %d\n\tIndex: %d, Value %d\n\tIndex: %d, Value %d\n", i1, n1, i2, n2, i3, n3)
-					return n1, n2, n3
-				}
-			}
-		}
-	}
-	return 0, 0, 0
-}
-
-func getSecretKey(int1 int, int2 int, int3 int) int {
-	return int1 * int2 * int3
-}
-
 func main() {
 	// test for presence of input.txt
 	_, err := os.Stat("input.txt")
@@ -35,7 +17,7 @@ func main() {
 		return
 	}
 
-	// read input from the file!
+	// read input from the file and store as an array of strings
 	path := "input.txt"
 	var list []string
 
