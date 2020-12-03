@@ -49,6 +49,11 @@ func main() {
 	treesHit3 := findTreeHits(5, 1, list)
 	treesHit4 := findTreeHits(7, 1, list)
 	treesHit5 := findTreeHits(1, 2, list)
+	fmt.Printf("Trees hit in run 1: %d\n", treesHit1)
+	fmt.Printf("Trees hit in run 2: %d\n", treesHit2)
+	fmt.Printf("Trees hit in run 3: %d\n", treesHit3)
+	fmt.Printf("Trees hit in run 4: %d\n", treesHit4)
+	fmt.Printf("Trees hit in run 5: %d\n", treesHit5)
 	fmt.Printf("Multiplied Trees: %d\n", treesHit1*treesHit2*treesHit3*treesHit4*treesHit5)
 
 }
