@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	// "strconv"
-	// "strings"
 )
 
 func main() {
@@ -51,29 +49,28 @@ func main() {
 	positionY := 0
 	movementX := 3
 	movementY := 1
-	treesHit  := 0
+	treesHit := 0
 	var positionXMod int
 
-
 	for k, v := range list {
-		if (k == positionY){
+		if k == positionY {
 			positionXMod = len(v)
 			truePositionX := positionX % positionXMod
 
-			if (string(v[truePositionX]) == "#") {
+			if string(v[truePositionX]) == "#" {
 				treesHit++
-				if (truePositionX == 0) {
+				if truePositionX == 0 {
 					fmt.Printf("Line %d: %s%s\n", k, "X", v[truePositionX+1:])
-				} else if (truePositionX == positionXMod-1) {
+				} else if truePositionX == positionXMod-1 {
 					fmt.Printf("Line %d: %s%s\n", k, v[0:truePositionX], "X")
 				} else {
 					fmt.Printf("Line %d: %s%s%s\n", k, v[0:truePositionX], "X", v[truePositionX+1:])
 				}
 			}
-			if (string(v[truePositionX]) == ".") {
-				if (truePositionX == 0) {
+			if string(v[truePositionX]) == "." {
+				if truePositionX == 0 {
 					fmt.Printf("Line %d: %s%s\n", k, "O", v[truePositionX+1:])
-				}  else if (truePositionX == positionXMod-1) {
+				} else if truePositionX == positionXMod-1 {
 					fmt.Printf("Line %d: %s%s\n", k, v[0:truePositionX], "O")
 				} else {
 					fmt.Printf("Line %d: %s%s%s\n", k, v[0:truePositionX], "O", v[truePositionX+1:])

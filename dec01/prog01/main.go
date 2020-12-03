@@ -2,8 +2,8 @@ package main
 
 import (
 	"bufio"
-    "fmt"
-    "log"
+	"fmt"
+	"log"
 	"os"
 	"strconv"
 )
@@ -11,8 +11,8 @@ import (
 func findAddsTo2020(list []int) (int, int) {
 	for i1, n1 := range list {
 		for i2, n2 := range list[i1+1:] {
-			if(n1+n2 == 2020){
-				fmt.Printf("Found a match!\n\tIndex: %d, Value: %d\n\tIndex: %d, Value %d\n",i1, n1, i2, n2)
+			if n1+n2 == 2020 {
+				fmt.Printf("Found a match!\n\tIndex: %d, Value: %d\n\tIndex: %d, Value %d\n", i1, n1, i2, n2)
 				return n1, n2
 			}
 		}
@@ -21,7 +21,7 @@ func findAddsTo2020(list []int) (int, int) {
 }
 
 func getSecretKey(int1 int, int2 int) int {
-	return int1*int2
+	return int1 * int2
 }
 
 func main() {
@@ -30,29 +30,29 @@ func main() {
 	var list []int
 
 	buf, err := os.Open(path)
-    if err != nil {
-        log.Fatal(err)
-    }
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    defer func() {
-        if err = buf.Close(); err != nil {
-            log.Fatal(err)
-        }
-    }()
+	defer func() {
+		if err = buf.Close(); err != nil {
+			log.Fatal(err)
+		}
+	}()
 
-    snl := bufio.NewScanner(buf)
-    for snl.Scan() {
+	snl := bufio.NewScanner(buf)
+	for snl.Scan() {
 		num, err := strconv.Atoi(snl.Text())
 		if err != nil {
 			log.Println("well I guess there's an error")
 		}
 		list = append(list, num)
-    }
-    err = snl.Err()
-    if err != nil {
-        log.Fatal(err)
 	}
-	
+	err = snl.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// My solution
 	// fakeList := []int{2019, 50, 40, 30, 20, 10, 1}
 	int1, int2 := findAddsTo2020(list)

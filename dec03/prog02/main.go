@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	// "strconv"
-	// "strings"
 )
 
 func main() {
@@ -46,40 +44,40 @@ func main() {
 	}
 
 	// SOLUTION
-	treesHit1 := findTreeHits(1,1,list)
-	treesHit2 := findTreeHits(3,1,list)
-	treesHit3 := findTreeHits(5,1,list)
-	treesHit4 := findTreeHits(7,1,list)
-	treesHit5 := findTreeHits(1,2,list)
+	treesHit1 := findTreeHits(1, 1, list)
+	treesHit2 := findTreeHits(3, 1, list)
+	treesHit3 := findTreeHits(5, 1, list)
+	treesHit4 := findTreeHits(7, 1, list)
+	treesHit5 := findTreeHits(1, 2, list)
 	fmt.Printf("Multiplied Trees: %d\n", treesHit1*treesHit2*treesHit3*treesHit4*treesHit5)
-	
+
 }
 
 func findTreeHits(movementX int, movementY int, data []string) int {
 	positionX := 0
 	positionY := 0
-	treesHit  := 0
+	treesHit := 0
 	var positionXMod int
 
 	for k, v := range data {
-		if (k == positionY){
+		if k == positionY {
 			positionXMod = len(v)
 			truePositionX := positionX % positionXMod
 
-			if (string(v[truePositionX]) == "#") {
+			if string(v[truePositionX]) == "#" {
 				treesHit++
-				if (truePositionX == 0) {
+				if truePositionX == 0 {
 					fmt.Printf("Line %d: %s%s\n", k, "X", v[truePositionX+1:])
-				} else if (truePositionX == positionXMod-1) {
+				} else if truePositionX == positionXMod-1 {
 					fmt.Printf("Line %d: %s%s\n", k, v[0:truePositionX], "X")
 				} else {
 					fmt.Printf("Line %d: %s%s%s\n", k, v[0:truePositionX], "X", v[truePositionX+1:])
 				}
 			}
-			if (string(v[truePositionX]) == ".") {
-				if (truePositionX == 0) {
+			if string(v[truePositionX]) == "." {
+				if truePositionX == 0 {
 					fmt.Printf("Line %d: %s%s\n", k, "O", v[truePositionX+1:])
-				}  else if (truePositionX == positionXMod-1) {
+				} else if truePositionX == positionXMod-1 {
 					fmt.Printf("Line %d: %s%s\n", k, v[0:truePositionX], "O")
 				} else {
 					fmt.Printf("Line %d: %s%s%s\n", k, v[0:truePositionX], "O", v[truePositionX+1:])

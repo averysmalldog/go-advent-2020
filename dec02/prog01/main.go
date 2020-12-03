@@ -53,7 +53,7 @@ func main() {
 		// Parse string into fields
 		str := strings.Fields(v)
 
-		minMax := strings.Split(str[0],"-")
+		minMax := strings.Split(str[0], "-")
 		minOccurrences, _ := strconv.Atoi(minMax[0])
 		maxOccurrences, _ := strconv.Atoi(minMax[1])
 		desiredLetter := string(str[1][0])
@@ -75,5 +75,5 @@ func main() {
 	}
 
 	fmt.Printf("Valid passwords: %d\n", validCounter)
-	
+
 }
