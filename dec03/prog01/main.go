@@ -64,15 +64,19 @@ func main() {
 				treesHit++
 				if (truePositionX == 0) {
 					fmt.Printf("Line %d: %s%s\n", k, "X", v[truePositionX+1:])
+				} else if (truePositionX == positionXMod-1) {
+					fmt.Printf("Line %d: %s%s\n", k, v[0:truePositionX], "X")
 				} else {
-					fmt.Printf("Line %d: %s%s%s\n", k, v[0:truePositionX-1], "X", v[truePositionX+1:])
+					fmt.Printf("Line %d: %s%s%s\n", k, v[0:truePositionX], "X", v[truePositionX+1:])
 				}
 			}
 			if (string(v[truePositionX]) == ".") {
 				if (truePositionX == 0) {
 					fmt.Printf("Line %d: %s%s\n", k, "O", v[truePositionX+1:])
+				}  else if (truePositionX == positionXMod-1) {
+					fmt.Printf("Line %d: %s%s\n", k, v[0:truePositionX], "O")
 				} else {
-					fmt.Printf("Line %d: %s%s%s\n", k, v[0:truePositionX-1], "O", v[truePositionX+1:])
+					fmt.Printf("Line %d: %s%s%s\n", k, v[0:truePositionX], "O", v[truePositionX+1:])
 				}
 			}
 
