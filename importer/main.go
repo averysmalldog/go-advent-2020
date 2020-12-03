@@ -84,6 +84,6 @@ func main() {
 	_, err := os.Stat("input.txt")
 	if os.IsNotExist(err) {
 		fmt.Println("input.txt not found. Making HTTPs call to generate it.")
-		getInput(2)
+		getInput(3)
 	}
 }
