@@ -1,3 +1,6 @@
+// README: you can find your session string at chrome://settings/cookies/detail?site=adventofcode.com&search=cookies
+// README: set your env var as follows:
+// export ADVENT_SESSION="<your-session-string>"
 package main
 
 import (
@@ -84,6 +87,6 @@ func main() {
 	_, err := os.Stat("input.txt")
 	if os.IsNotExist(err) {
 		fmt.Println("input.txt not found. Making HTTPs call to generate it.")
-		getInput(3)
+		getInput(4)
 	}
 }
