@@ -1,12 +1,12 @@
 package main
 
 import (
-	"io/ioutil"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"regexp"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 // validation functions
@@ -19,7 +19,7 @@ func validateByr(data string) bool {
 	if err != nil {
 		return false
 	}
-	if (dob >= 1920 && dob <= 2002) {
+	if dob >= 1920 && dob <= 2002 {
 		return true
 	}
 	return false
@@ -34,7 +34,7 @@ func validateIyr(data string) bool {
 	if err != nil {
 		return false
 	}
-	if (dob >= 2010 && dob <= 2020) {
+	if dob >= 2010 && dob <= 2020 {
 		return true
 	}
 	return false
@@ -49,7 +49,7 @@ func validateEyr(data string) bool {
 	if err != nil {
 		return false
 	}
-	if (dob >= 2020 && dob <= 2030) {
+	if dob >= 2020 && dob <= 2030 {
 		return true
 	}
 	return false
@@ -57,22 +57,22 @@ func validateEyr(data string) bool {
 
 func validateHgt(data string) bool {
 	fmt.Printf("%s", data)
-	if (strings.Contains(data, "cm")) {
+	if strings.Contains(data, "cm") {
 		digits := strings.Split(data, "c")
 		height, err := strconv.Atoi(digits[0])
 		if err != nil {
 			return false
 		}
-		if (height >= 150 && height <= 193) {
+		if height >= 150 && height <= 193 {
 			return true
 		}
-	} else if (strings.Contains(data, "in")) {
+	} else if strings.Contains(data, "in") {
 		digits := strings.Split(data, "i")
 		height, err := strconv.Atoi(digits[0])
 		if err != nil {
 			return false
 		}
-		if (height >= 59 && height <= 76) {
+		if height >= 59 && height <= 76 {
 			return true
 		}
 	}
@@ -85,7 +85,7 @@ func validateHcl(data string) bool {
 	if err != nil {
 		return false
 	}
-	if (match){
+	if match {
 		return true
 	}
 	return false
@@ -117,7 +117,7 @@ func validatePid(data string) bool {
 	if err != nil {
 		return false
 	}
-	if (match){
+	if match {
 		return true
 	}
 	return false
@@ -126,7 +126,6 @@ func validatePid(data string) bool {
 func validateCid(data string) bool {
 	return true
 }
-
 
 func main() {
 	// test for presence of input.txt
@@ -139,7 +138,7 @@ func main() {
 	// read entire file as bytes
 	path := "input.txt"
 	dat, err := ioutil.ReadFile(path)
-    if err != nil {
+	if err != nil {
 		fmt.Println(err)
 		return
 	}
@@ -171,63 +170,70 @@ func main() {
 		invalidData := 0
 		for _, v1 := range requiredFields {
 			switch v1 {
-				case "byr" : {
+			case "byr":
+				{
 					fmt.Printf("\tChecking byr: ")
-					if validateByr(passportEntry[v1]){
+					if validateByr(passportEntry[v1]) {
 						fmt.Printf(" valid.\n")
 					} else {
 						fmt.Printf(" INVALID.\n")
 						invalidData++
 					}
 				}
-				case "iyr" : {
+			case "iyr":
+				{
 					fmt.Printf("\tChecking iyr: ")
-					if validateIyr(passportEntry[v1]){
+					if validateIyr(passportEntry[v1]) {
 						fmt.Printf(" valid.\n")
 					} else {
 						fmt.Printf(" INVALID.\n")
 						invalidData++
 					}
 				}
-				case "eyr" : {
+			case "eyr":
+				{
 					fmt.Printf("\tChecking eyr: ")
-					if validateEyr(passportEntry[v1]){
+					if validateEyr(passportEntry[v1]) {
 						fmt.Printf(" valid.\n")
 					} else {
 						fmt.Printf(" INVALID.\n")
 						invalidData++
 					}
 				}
-				case "hgt" : {
+			case "hgt":
+				{
 					fmt.Printf("\tChecking hgt: ")
-					if validateHgt(passportEntry[v1]){
+					if validateHgt(passportEntry[v1]) {
 						fmt.Printf(" valid.\n")
 					} else {
 						fmt.Printf(" INVALID.\n")
 						invalidData++
 					}
 				}
-				case "hcl" : {
+			case "hcl":
+				{
 					fmt.Printf("\tChecking hcl: ")
-					if validateHcl(passportEntry[v1]){
+					if validateHcl(passportEntry[v1]) {
 						fmt.Printf(" valid.\n")
 					} else {
 						fmt.Printf(" INVALID.\n")
 						invalidData++
 					}
 				}
-				case "ecl" : {
+			case "ecl":
+				{
 					fmt.Printf("\tChecking ecl: ")
-					if validateEcl(passportEntry[v1]){
+					if validateEcl(passportEntry[v1]) {
 						fmt.Printf(" valid.\n")
 					} else {
 						fmt.Printf(" INVALID.\n")
 						invalidData++
 					}
 				}
-				case "pid" : {
+			case "pid":
+				{
 					fmt.Printf("\tChecking pid: ")
-					if validatePid(passportEntry[v1]){
+					if validatePid(passportEntry[v1]) {
 						fmt.Printf(" valid.\n")
 					} else {
 						fmt.Printf(" INVALID.\n")
@@ -238,19 +244,19 @@ func main() {
 			if passportEntry[v1] == "" {
 				fmt.Printf("\tMissing %s.\n", v1)
 				missingData++
-			} 
+			}
 		}
-		if (missingData == 0 && invalidData == 0) {
+		if missingData == 0 && invalidData == 0 {
 			fmt.Printf("%d\n", k)
 			validPassports++
 		}
 		fmt.Println()
-		output = append(output, fmt.Sprintf("%d,%s,%s,%s,%s,%s,%s,%s", k, passportEntry["byr"], passportEntry["iyr"], passportEntry["eyr"], passportEntry["hgt"], passportEntry["hcl"], passportEntry["ecl"],passportEntry["pid"]))
+		output = append(output, fmt.Sprintf("%d,%s,%s,%s,%s,%s,%s,%s", k, passportEntry["byr"], passportEntry["iyr"], passportEntry["eyr"], passportEntry["hgt"], passportEntry["hcl"], passportEntry["ecl"], passportEntry["pid"]))
 	}
 	fmt.Printf("Total Passports: %d.\n", len(entries))
 	fmt.Printf("Valid Passports: %d.\n", validPassports)
 	// for _,value := range output{
 	// 	fmt.Println(value)
 	// }
-	
+
 }

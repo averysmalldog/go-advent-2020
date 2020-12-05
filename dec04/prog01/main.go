@@ -1,8 +1,8 @@
 package main
 
 import (
-	"io/ioutil"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strings"
 )
@@ -18,7 +18,7 @@ func main() {
 	// read entire file as bytes
 	path := "input.txt"
 	dat, err := ioutil.ReadFile(path)
-    if err != nil {
+	if err != nil {
 		fmt.Println(err)
 		return
 	}
@@ -51,7 +51,7 @@ func main() {
 			if passportEntry[v1] == "" {
 				fmt.Printf("Passport %d is missing %s.\n", k, v1)
 				missingData++
-			} 
+			}
 		}
 		if missingData == 0 {
 			fmt.Printf("Passport %d is VALID.\n", k)

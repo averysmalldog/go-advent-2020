@@ -1,9 +1,8 @@
 package main
 
 import (
-	"fmt"
-	// "io/ioutil"
 	"bufio"
+	"fmt"
 	"log"
 	"math"
 	"os"
@@ -62,9 +61,9 @@ func main() {
 	for k, v := range list {
 		row, _ := convertToInt("B", v[:7])
 		column, _ := convertToInt("R", v[7:])
-		sid := row*8+column
+		sid := row*8 + column
 		sidList = append(sidList, sid)
-		if sid > highestSid{
+		if sid > highestSid {
 			highestSid = sid
 		}
 
@@ -72,9 +71,9 @@ func main() {
 	}
 	fmt.Printf("Highest Seat ID: %d\n", highestSid)
 	sort.Ints(sidList)
-	for k,_ := range sidList {
-		if (k > 0 && k < len(sidList)) {
-			if sidList[k-1] != sidList[k]-1{
+	for k, _ := range sidList {
+		if k > 0 && k < len(sidList) {
+			if sidList[k-1] != sidList[k]-1 {
 				fmt.Printf("Missing Seat ID: %d\n", sidList[k]-1)
 			}
 		}

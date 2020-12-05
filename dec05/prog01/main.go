@@ -1,15 +1,11 @@
 package main
 
 import (
-	"fmt"
-	// "io/ioutil"
 	"bufio"
+	"fmt"
 	"log"
 	"math"
 	"os"
-	// "regexp"
-	// "strings"
-	// "strconv"
 )
 
 func convertToInt(one string, input string) (int, error) {
@@ -63,8 +59,8 @@ func main() {
 	for k, v := range list {
 		row, _ := convertToInt("B", v[:7])
 		column, _ := convertToInt("R", v[7:])
-		sid := row*8+column
-		if sid > highestSid{
+		sid := row*8 + column
+		if sid > highestSid {
 			highestSid = sid
 		}
 
