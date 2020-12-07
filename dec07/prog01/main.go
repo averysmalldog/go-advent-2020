@@ -9,15 +9,9 @@ import (
 	"strings"
 )
 
-type Bag struct {
-	Adjective string
-	Color string
-	Rules []Rule
-}
-
 type Rule struct {
 	Quantity int
-	Bag Bag
+	Bag string
 }
 
 func main() {
@@ -57,48 +51,51 @@ func main() {
 	}
 
 	// solution
-	bagList := make(map[string]map[string][]Rule)
-	for k1, rule := range list {
+	bagList := make(map[string][]Rule)
+	for _, rule := range list {
 		ruleset := strings.Split(rule, "contain ")
 
 		// define the bag the rule is for
 		rootBagStrings := strings.Fields(ruleset[0])
-		rootBag := Bag{
-			Adjective: rootBagStrings[0],
-			Color: rootBagStrings[1],
-		}
-		fmt.Printf("%+v\n",rootBag)
+		rootBag := fmt.Sprintf("%s %s", rootBagStrings[0],rootBagStrings[1])
+		//fmt.Printf("%+v\n",rootBag)
 		
 		// set up the rules for the bag
 		thisBagRules := []Rule{}
-		items := strings.Split(ruleset[1], ", ")
-		for _, item := range items {
-			elements := strings.Fields(item)
-			numBags, err := strconv.Atoi(elements[0])
-			if err != nil {
-				fmt.Printf("\terror converting to int.")
+		if ruleset[1] != "no other bags." {
+			items := strings.Split(ruleset[1], ", ")
+			for _, item := range items {
+				elements := strings.Fields(item)
+				numBags, err := strconv.Atoi(elements[0])
+				if err != nil {
+					//fmt.Printf("\terror converting to int.")
+				}
+				thisRule := Rule{
+					Quantity: numBags,
+					Bag: fmt.Sprintf("%s %s", elements[1], elements[2]),
+				}
+				thisBagRules = append(thisBagRules, thisRule)
 			}
-			thisRule := Rule{
-				Quantity: numBags,
-				Bag: Bag{
-					Adjective: elements[1],
-					Color: elements[2],
-				},
-			}
-			thisBagRules = append(thisBagRules, thisRule)
-		}
 		
 		// compose
-		theBag := Bag{
-			Adjective: rootBag.Adjective,
-			Color: rootBag.Color,
-			Rules: thisBagRules,
+		bagList[rootBag] = thisBagRules
 		}
-		fmt.Printf("Rule %d details:\n\tA %s %s bag contains:\n", k1, theBag.Adjective, theBag.Color)
-		for _, v := range theBag.Rules{
-			fmt.Printf("\t%d %s %s\n", v.Quantity, v.Bag.Adjective, v.Bag.Color)
-		}
-		bagList[theBag.Adjective][theBag.Color] = thisBagRules
 	}
-	fmt.Printf("%+v", bagList)
+	containsList := map[string]bool{}
+	walk(bagList, &containsList, "shiny gold")
+	fmt.Printf("Number of bag colors that contain shiny gold: %d\n", len(containsList))
+}
+
+func walk(ruleMap map[string][]Rule, containsList *map[string]bool, desiredBag string) {
+	list := *containsList
+	for k, rulelist := range ruleMap {
+		for _, rule := range rulelist{
+			//fmt.Printf("Rule %s, Item %d: %+v\n", k, k1, rule)
+			if rule.Bag == desiredBag{
+				list[k] = true
+				fmt.Printf("%s contains %s.\n", k, desiredBag)
+				walk(ruleMap, &list, k)
+			}
+		}
+	}
 }
