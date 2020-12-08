@@ -79,11 +79,20 @@ func main() {
 		
 		// compose
 		bagList[rootBag] = thisBagRules
+		} else {
+			bagList[rootBag] = []Rule{Rule{
+				Quantity: 0,
+			}}
 		}
 	}
 	containsList := map[string]int{}
-	walkDown(bagList, &containsList, "shiny gold")
-	fmt.Printf("Number of bag colors contained by shiny gold: %d\n", len(containsList))
+	totalBags := 0
+	walkDown(bagList, &containsList, "shiny gold", 1, 0)
+	for k,v := range containsList {
+		totalBags+=v
+		fmt.Printf("%s: %d\n", k, v)
+	}
+	fmt.Printf("Total bags contained by shiny gold: %d\n", totalBags)
 }
 
 func walkUp(ruleMap map[string][]Rule, containsList *map[string]bool, desiredBag string) {
@@ -101,15 +110,18 @@ func walkUp(ruleMap map[string][]Rule, containsList *map[string]bool, desiredBag
 }
 
 // need to keep track of rules with 0 to solve this
-func walkDown(ruleMap map[string][]Rule, containsList *map[string]int, desiredBag string) {
+func walkDown(ruleMap map[string][]Rule, containsList *map[string]int, desiredBag string, instances int, layer int) {
 	list := *containsList
-	for k, rulelist := range ruleMap {
-		if k == desiredBag{
-			for _, rule := range rulelist{
-				list[k] += rule.Quantity
-				fmt.Printf("%s contains %d %s.\n", desiredBag, rule.Quantity, rule.Bag)
-				walkDown(ruleMap, &list, k)
-			}
+	for _, rule := range ruleMap[desiredBag] {
+		if rule.Bag != "" {
+			list[rule.Bag] += rule.Quantity*instances
 		}
+		for i:=0;i<layer;i++ {
+			fmt.Printf(" ")
+		}
+		fmt.Printf("%dx %s contains %d %s.\n", instances, desiredBag, rule.Quantity*instances, rule.Bag)
+		if rule.Quantity >0 {
+			walkDown(ruleMap, &list, rule.Bag, rule.Quantity*instances, layer+1)
+		}	
 	}
 }
