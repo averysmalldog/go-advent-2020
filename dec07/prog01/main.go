@@ -11,7 +11,7 @@ import (
 
 type Rule struct {
 	Quantity int
-	Bag string
+	Bag      string
 }
 
 func main() {
@@ -57,9 +57,9 @@ func main() {
 
 		// define the bag the rule is for
 		rootBagStrings := strings.Fields(ruleset[0])
-		rootBag := fmt.Sprintf("%s %s", rootBagStrings[0],rootBagStrings[1])
+		rootBag := fmt.Sprintf("%s %s", rootBagStrings[0], rootBagStrings[1])
 		//fmt.Printf("%+v\n",rootBag)
-		
+
 		// set up the rules for the bag
 		thisBagRules := []Rule{}
 		if ruleset[1] != "no other bags." {
@@ -72,13 +72,13 @@ func main() {
 				}
 				thisRule := Rule{
 					Quantity: numBags,
-					Bag: fmt.Sprintf("%s %s", elements[1], elements[2]),
+					Bag:      fmt.Sprintf("%s %s", elements[1], elements[2]),
 				}
 				thisBagRules = append(thisBagRules, thisRule)
 			}
-		
-		// compose
-		bagList[rootBag] = thisBagRules
+
+			// compose
+			bagList[rootBag] = thisBagRules
 		}
 	}
 	containsList := map[string]bool{}
@@ -89,9 +89,9 @@ func main() {
 func walk(ruleMap map[string][]Rule, containsList *map[string]bool, desiredBag string) {
 	list := *containsList
 	for k, rulelist := range ruleMap {
-		for _, rule := range rulelist{
+		for _, rule := range rulelist {
 			//fmt.Printf("Rule %s, Item %d: %+v\n", k, k1, rule)
-			if rule.Bag == desiredBag{
+			if rule.Bag == desiredBag {
 				list[k] = true
 				fmt.Printf("%s contains %s.\n", k, desiredBag)
 				walk(ruleMap, &list, k)

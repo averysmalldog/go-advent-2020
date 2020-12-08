@@ -39,10 +39,10 @@ func main() {
 		}
 		for k2, i := range answerMap {
 			fmt.Printf("\tk:%c i:%d\n", k2, i)
-			if i == len(fields){
+			if i == len(fields) {
 				answerSum += 1
 			}
-			
+
 		}
 		fmt.Printf("Group %d total YESes: %d\n\n", k, answerSum)
 		totalYeses += answerSum

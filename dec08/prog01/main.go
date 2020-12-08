@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 func main() {
@@ -60,12 +60,12 @@ func compute(program []string, instructionMemory *map[int]int, programCounter *i
 	if localCache[*programCounter] != 0 {
 		return *programCounter
 	}
-	
+
 	// vars
-	badInstruction :=0
+	badInstruction := 0
 	localCache[*programCounter]++
 	*instructionMemory = localCache
-	
+
 	// form up data
 	instruction := strings.Fields(program[*programCounter])
 
@@ -77,7 +77,7 @@ func compute(program []string, instructionMemory *map[int]int, programCounter *i
 	}
 
 	// case acc
-	if instruction [0] == "acc" {
+	if instruction[0] == "acc" {
 		fmt.Printf("PC: %d, Instruction: %s, Accumulator: %d\n", *programCounter, instruction[0], *accumulator)
 		if string(instruction[1][0]) == string("+") {
 			value, err := strconv.Atoi(string(instruction[1][1:]))
@@ -100,14 +100,14 @@ func compute(program []string, instructionMemory *map[int]int, programCounter *i
 	}
 
 	// case jmp
-	if instruction [0] == "jmp" {
+	if instruction[0] == "jmp" {
 		fmt.Printf("PC: %d, Instruction: %s, Accumulator: %d\n", *programCounter, instruction[0], *accumulator)
 		if string(instruction[1][0]) == string("+") {
 			value, err := strconv.Atoi(string(instruction[1][1:]))
 			if err != nil {
 				return -1
 			}
-			*programCounter+=value
+			*programCounter += value
 			return compute(program, instructionMemory, programCounter, accumulator)
 		}
 		if string(instruction[1][0]) == string("-") {
@@ -115,10 +115,10 @@ func compute(program []string, instructionMemory *map[int]int, programCounter *i
 			if err != nil {
 				return -1
 			}
-			*programCounter-=value
+			*programCounter -= value
 			return compute(program, instructionMemory, programCounter, accumulator)
 		}
 	}
-	
+
 	return badInstruction
 }
