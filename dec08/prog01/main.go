@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
+	"strconv"
 )
 
 func main() {
@@ -48,15 +50,74 @@ func main() {
 	programCounter := 0
 	instructionMemory := map[int]int{}
 	badInstruction := compute(list, &instructionMemory, &programCounter, &accumulator)
+	fmt.Printf("InstructionCache: %+v\n", instructionMemory)
 	fmt.Printf("Bad Instruction: %d, Accumulator: %d\n", badInstruction, accumulator)
 }
 
-func compute(instructionList []string, instructionMemory *map[int]int, programCounter *int, accumulator *int) int {
-	badInstruction := *programCounter
-	if *programCounter < 10 {
-		fmt.Printf("Hello World. %d\n", *programCounter)
+func compute(program []string, instructionMemory *map[int]int, programCounter *int, accumulator *int) int {
+	// if we've been here before, this is the loop
+	localCache := *instructionMemory
+	if localCache[*programCounter] != 0 {
+		return *programCounter
+	}
+	
+	// vars
+	badInstruction :=0
+	localCache[*programCounter]++
+	*instructionMemory = localCache
+	
+	// form up data
+	instruction := strings.Fields(program[*programCounter])
+
+	// case nop
+	if instruction[0] == "nop" {
+		fmt.Printf("PC: %d, Instruction: %s, Accumulator: %d\n", *programCounter, instruction[0], *accumulator)
 		*programCounter++
-		badInstruction = compute(instructionList, instructionMemory, programCounter, accumulator)
+		return compute(program, instructionMemory, programCounter, accumulator)
+	}
+
+	// case acc
+	if instruction [0] == "acc" {
+		fmt.Printf("PC: %d, Instruction: %s, Accumulator: %d\n", *programCounter, instruction[0], *accumulator)
+		if string(instruction[1][0]) == string("+") {
+			value, err := strconv.Atoi(string(instruction[1][1:]))
+			if err != nil {
+				return -1
+			}
+			*accumulator += value
+			*programCounter++
+			return compute(program, instructionMemory, programCounter, accumulator)
+		}
+		if string(instruction[1][0]) == string("-") {
+			value, err := strconv.Atoi(string(instruction[1][1:]))
+			if err != nil {
+				return -1
+			}
+			*accumulator -= value
+			*programCounter++
+			return compute(program, instructionMemory, programCounter, accumulator)
+		}
+	}
+
+	// case jmp
+	if instruction [0] == "jmp" {
+		fmt.Printf("PC: %d, Instruction: %s, Accumulator: %d\n", *programCounter, instruction[0], *accumulator)
+		if string(instruction[1][0]) == string("+") {
+			value, err := strconv.Atoi(string(instruction[1][1:]))
+			if err != nil {
+				return -1
+			}
+			*programCounter+=value
+			return compute(program, instructionMemory, programCounter, accumulator)
+		}
+		if string(instruction[1][0]) == string("-") {
+			value, err := strconv.Atoi(string(instruction[1][1:]))
+			if err != nil {
+				return -1
+			}
+			*programCounter-=value
+			return compute(program, instructionMemory, programCounter, accumulator)
+		}
 	}
 	
 	return badInstruction
