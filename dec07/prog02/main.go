@@ -85,14 +85,19 @@ func main() {
 			}}
 		}
 	}
-	containsList := map[string]int{}
-	totalBags := 0
-	walkDown(bagList, &containsList, "shiny gold", 1, 0)
-	for k,v := range containsList {
-		totalBags+=v
-		fmt.Printf("%s: %d\n", k, v)
+	for k, _ := range bagList {
+		containsList := map[string]int{}
+		totalBags := 0
+		walkDown(bagList, &containsList, k, 1, 0)
+		for _,v := range containsList {
+			totalBags+=v
+			// fmt.Printf("%s: %d\n", k, v)
+		}
+		// if totalBags >= 100000000000{
+			fmt.Printf("Total bags contained by %s: %d\n", k, totalBags)
+		// }
+		
 	}
-	fmt.Printf("Total bags contained by shiny gold: %d\n", totalBags)
 }
 
 func walkUp(ruleMap map[string][]Rule, containsList *map[string]bool, desiredBag string) {
@@ -102,7 +107,7 @@ func walkUp(ruleMap map[string][]Rule, containsList *map[string]bool, desiredBag
 			//fmt.Printf("Rule %s, Item %d: %+v\n", k, k1, rule)
 			if rule.Bag == desiredBag{
 				list[k] = true
-				fmt.Printf("%s contains %s.\n", k, desiredBag)
+				// fmt.Printf("%s contains %s.\n", k, desiredBag)
 				walkUp(ruleMap, &list, k)
 			}
 		}
@@ -117,9 +122,9 @@ func walkDown(ruleMap map[string][]Rule, containsList *map[string]int, desiredBa
 			list[rule.Bag] += rule.Quantity*instances
 		}
 		for i:=0;i<layer;i++ {
-			fmt.Printf(" ")
+			// fmt.Printf(" ")
 		}
-		fmt.Printf("%dx %s contains %d %s.\n", instances, desiredBag, rule.Quantity*instances, rule.Bag)
+		// fmt.Printf("%dx %s contains %d %s.\n", instances, desiredBag, rule.Quantity*instances, rule.Bag)
 		if rule.Quantity >0 {
 			walkDown(ruleMap, &list, rule.Bag, rule.Quantity*instances, layer+1)
 		}	
