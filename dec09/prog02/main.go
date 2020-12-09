@@ -52,13 +52,15 @@ func main() {
 		value, _ := strconv.Atoi(v)
 		if !validate(cache, value) {
 			fmt.Printf("Entry %d is invalid. Value: %s\n",k+25, v)
-			invalidNumber = strconv.Atoi(v)
+			invalidNumber, _ = strconv.Atoi(v)
 		}
 	}
 
 	// solution part 2
 	magicNumberList := findMagicNumberList(list, invalidNumber)
+	fmt.Println(magicNumberList)
 	magicNumber := sumMinMax(magicNumberList)
+	fmt.Printf("Encryption weakness: %d\n", magicNumber)
 }
 
 func listToMap(numList []string) (map[string]bool) {
@@ -79,5 +81,44 @@ func validate(cache map[string]bool, value int) bool {
 }
 
 func findMagicNumberList(list []string, invalidNumber int) []int {
-	
+	result := []int{}
+	for k, _ := range list {
+		// fmt.Printf("Starting run at element %d, %s: ", k, v)
+		currentRun := []int{}
+		for _, v := range list[k:] {
+			elem, _ := strconv.Atoi(v)
+			currentRun = append(currentRun, elem)
+			runningSum := listSum(currentRun)
+			// fmt.Printf("%d ", runningSum)
+			if runningSum == invalidNumber {
+				// fmt.Printf("SUCCESS!\n")
+				return currentRun
+			} else if runningSum > invalidNumber{
+				break
+			}
+		}
+	}
+	return result
+}
+
+func listSum(list []int) int {
+	sum := 0
+	for _,v := range list {
+		sum+=v
+	}
+	return sum
+}
+
+func sumMinMax(list []int) int {
+	min := list[0]
+	max := list[0]
+	for _, v := range list {
+		if v < min {
+			min = v
+		}
+		if v > max {
+			max = v
+		}
+	}
+	return min+max
 }
