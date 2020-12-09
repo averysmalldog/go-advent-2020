@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	// "strconv"
+	"strconv"
 	// "strings"
 )
 
@@ -46,7 +46,28 @@ func main() {
 	}
 
 	// solution
-	for _, v := range list {
-		fmt.Println(v)
+	for k, v := range list[25:] {
+		cache := listToMap(list[k:k+25])
+		value, _ := strconv.Atoi(v)
+		if !validate(cache, value) {
+			fmt.Printf("Entry %d is invalid. Value: %s\n",k+25, v)
+		}
 	}
+}
+
+func listToMap(numList []string) (map[string]bool) {
+	result := map[string]bool{}
+	for _,v := range numList {
+		result[v] = true
+	}
+	return result
+}
+
+func validate(cache map[string]bool, value int) bool {
+	for k, _ := range cache {
+		factor, _ := strconv.Atoi(k)
+		complement := value-factor
+		if cache[strconv.Itoa(complement)] {return true}
+	}
+	return false
 }
